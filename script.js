@@ -22,7 +22,7 @@ if (operacion === 1) {
 alert("el resultado es " + resultado);
 */
 
-opcion = Number(prompt("Ingrese una opcion para ejecutar: \n 1.suma de dos numeros enteros \n 2.Cuenta regresiva mayor a 10 \n 3.Ingreso de datos personales"))
+opcion = Number(prompt("Ingrese una opcion para ejecutar: \n 1.Suma de dos numeros enteros \n 2.Cuenta regresiva mayor a 10 \n 3.Ingreso de datos personales"))
 switch(opcion){
     case 1:
         a = Number(prompt("Ingrese el primer numero entero"))
