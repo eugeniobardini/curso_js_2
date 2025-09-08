@@ -28,8 +28,8 @@ switch(opcion){
         a = Number(prompt("ingrese el primer numero entero"))
         b = Number(prompt("ingrese el segundo numero entero"))
         console.log(a)
-        if(a!=NaN && b!=NaN){alert("Se ingreso una letra no un numero")
-        }else if(a > 0 && b > 0){console.log(`la suma de ${a} + ${b} = ${a+b}`)
+        if(isNaN(a) || isNaN(b)){alert("Se ingreso una letra no un numero")
+        }else if(a > 0 && b > 0){alert(`la suma de ${a} + ${b} = ${a+b}`)
             }else{alert("el numero debe ser positivo")};
     break;
     case 2:
@@ -43,7 +43,7 @@ switch(opcion){
     case 3:
         nombre = prompt("porfavor ingrese su nombre")
         edad = prompt("porfavor ingrese su edad")
-        console.log(`Hola ${nombre} tu edad es ${edad}`);
+        alert(`Hola ${nombre}, tu edad es ${edad}`);
     break;
     default:
         alert("opcion no valida")
