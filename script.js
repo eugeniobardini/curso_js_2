@@ -45,7 +45,9 @@ switch(opcion){
         edad = prompt("Porfavor ingrese su edad")
         if (isNaN(edad)){
             alert("La edad ingresada no es un numero")
-        } else {
+        } else if(nombre != NaN){
+            alert("Nombre no puede ser un numero")
+        }else{
             alert(`Hola ${nombre}, tu edad es ${edad}`);
         }
     break;
