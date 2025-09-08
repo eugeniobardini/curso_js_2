@@ -43,7 +43,11 @@ switch(opcion){
     case 3:
         nombre = prompt("porfavor ingrese su nombre")
         edad = prompt("porfavor ingrese su edad")
-        alert(`Hola ${nombre}, tu edad es ${edad}`);
+        if (isNaN(edad)){
+            alert("la edad ingresada no es un numero")
+        } else {
+            alert(`Hola ${nombre}, tu edad es ${edad}`);
+        }
     break;
     default:
         alert("opcion no valida")
