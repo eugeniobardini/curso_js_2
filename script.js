@@ -48,3 +48,5 @@ switch(opcion){
     default:
         alert("opcion no valida")
 }
+
+//verificacion push 8/08 4:55
