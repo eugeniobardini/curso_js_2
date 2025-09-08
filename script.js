@@ -22,37 +22,37 @@ if (operacion === 1) {
 alert("el resultado es " + resultado);
 */
 
-opcion = Number(prompt("Ingrese una opcion para ejecutar: \n 1.Suma de dos numeros enteros \n 2.Cuenta regresiva mayor a 10 \n 3.Ingreso de datos personales"))
-switch(opcion){
+let opcion = Number(prompt("Ingrese una opcion para ejecutar: \n 1.Suma de dos numeros enteros \n 2.Cuenta regresiva mayor a 10 \n 3.Ingreso de datos personales"))
+switch (opcion) {
     case 1:
-        a = Number(prompt("Ingrese el primer numero entero"))
-        b = Number(prompt("Ingrese el segundo numero entero"))
+        let a = Number(prompt("Ingrese el primer numero entero"))
+        let b = Number(prompt("Ingrese el segundo numero entero"))
         console.log(a)
-        if(isNaN(a) || isNaN(b)){alert("Se ingreso una letra no un numero")
-        }else if(a > 0 && b > 0){alert(`La suma de ${a} + ${b} = ${a+b}`)
-            }else{alert("El numero debe ser positivo")};
-    break;
+        if (isNaN(a) || isNaN(b)) {
+            alert("Se ingreso una letra no un numero")
+        } else if (a > 0 && b > 0) {
+            alert(`La suma de ${a} + ${b} = ${a + b}`)
+        } else { alert("El numero debe ser positivo") };
+        break;
     case 2:
-        cuenta = Number(prompt("Ingrese un numero mayor a 10"))  
-      if(cuenta > 10){
-            for(i = cuenta; i >= 0; i--){
+        let cuenta = Number(prompt("Ingrese un numero mayor o igual a 10"))
+        if (cuenta >= 10) {
+            for (i = cuenta; i >= 0; i--) {
                 console.log(i)
             }
-        }else{alert("Numero menor a 10 no es valido")};
-    break;
+        } else { alert("Numero menor a 10 no es valido") };
+        break;
     case 3:
-        nombre = prompt("Porfavor ingrese su nombre")
-        edad = prompt("Porfavor ingrese su edad")
-        if (isNaN(edad)){
+        let nombre = prompt("Por favor ingrese su nombre")
+        let edad = prompt("Por favor ingrese su edad")
+        if (isNaN(edad)) {
             alert("La edad ingresada no es un numero")
-        } else if(!isNaN(nombre)){
+        } else if (!isNaN(nombre)) {
             alert("Nombre no puede ser un numero")
-        }else{
+        } else {
             alert(`Hola ${nombre}, tu edad es ${edad}`);
         }
-    break;
+        break;
     default:
         alert("Opcion no valida")
 }
-
-//verificacion push 8/08 4:55
