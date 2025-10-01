@@ -1,0 +1,160 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* ====== Layout general ====== */
+  main {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  /* ====== Card productos (Home) ====== */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  }
+  
+  .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card h2 {
+    font-size: 1.2rem;
+    margin: 15px;
+    color: #222;
+  }
+  
+  .card p {
+    font-size: 0.9rem;
+    margin: 0 15px 10px;
+    color: #555;
+  }
+  
+  .card span {
+    font-weight: bold;
+    margin: 0 15px 15px;
+    color: #00897b;
+  }
+  
+  .card a {
+    margin: 0 15px 15px;
+    text-decoration: none;
+    background: #00897b;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.2s ease;
+  }
+  
+  .card a:hover {
+    background: #00695c;
+  }
+  
+  /* ====== Detalle producto ====== */
+  #detalle {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  
+  .detalle-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+  
+  .detalle-card img {
+    flex: 1 1 300px;
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .detalle-card div {
+    flex: 1 1 300px;
+    padding: 20px;
+  }
+  
+  .detalle-card h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #222;
+  }
+  
+  .detalle-card p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .detalle-card span {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #00897b;
+    margin-bottom: 20px;
+  }
+  
+  .detalle-card button {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #00897b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+  }
+  
+  .detalle-card button:hover {
+    background: #00695c;
+  }
+  
+  /* ====== Responsivo ====== */
+  @media (max-width: 768px) {
+    .detalle-card {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .detalle-card img {
+      max-width: 100%;
+    }
+  
+    .detalle-card div {
+      padding: 15px;
+    }
+  }
+  
