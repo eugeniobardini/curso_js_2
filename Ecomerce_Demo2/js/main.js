@@ -1,15 +1,12 @@
-
 const dataMap = (productos) => productos.map(producto => `
-        <div class="card">
-            <img src="${producto.imagen}" alt="${producto.nombre}" />
-            <h2>${producto.nombre}</h2>
-            <p>${producto.descripcion}</p>
-            <span>$${producto.precio}</span>
-            <button class="btn-carrito-simple">Añadir al Carrito</button>
-        </div>
-    `
-).join("");
-
+    <div class="card">
+        <img src="${producto.imagen}" alt="${producto.nombre}" />
+        <h2>${producto.nombre}</h2>
+        <p>${producto.descripcion}</p>
+        <span>$${producto.precio}</span>
+        <button class="btn-carrito-simple" onclick="mostrarDetalleProducto(${producto.id})">Ver Detalle</button>
+    </div>
+`).join("");
 
 const main = document.querySelector("main");
 main.innerHTML = dataMap(data);
@@ -39,14 +36,13 @@ clearBuscar.onclick = () => {
     main.innerHTML = dataMap(data);
 };
 
-// FILTROS POR CATEGORÍA (Mujer, Hombre, Accesorios)
+// FILTROS POR CATEGORÍA
 const filtrosContainer = document.querySelector('.filtros');
 const clearFiltros = document.querySelector('.filtros .clear');
 
 filtrosContainer.onclick = (e) => {
     if (e.target.tagName !== 'BUTTON') return;
 
-    // Quitar active de todos los botones y ponerlo al clickeado
     const botones = filtrosContainer.querySelectorAll('button');
     botones.forEach(btn => btn.classList.remove('active'));
     e.target.classList.add('active');
