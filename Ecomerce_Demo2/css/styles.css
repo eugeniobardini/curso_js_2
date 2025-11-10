@@ -27,7 +27,7 @@ nav ul {
 }
 
 nav a {
-    color: white;
+    color: rgb(31, 22, 74);
     text-decoration: none;
     font-weight: bold;
     padding: 0.5rem 1rem;
@@ -36,7 +36,7 @@ nav a {
 }
 
 nav a:hover {
-    background: #34495e;
+    background: #389ab3;
 }
 
 /* BUSCADOR */

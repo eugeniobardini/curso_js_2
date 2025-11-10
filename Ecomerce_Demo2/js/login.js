@@ -9,6 +9,8 @@ const handleSubmitLogin = (ev) => {
 
     if (emailForm === USER_LOGIN.email && passwordForm === USER_LOGIN.password) {
         localStorage.setItem("email", emailForm);
+        localStorage.setItem("cart", JSON.stringify([])); // Cart vacío
+        localStorage.setItem("quantity", "0"); // Quantity en 0
         location.href = "./index.html";
     } else {
         message.textContent = 'Por favor introduce credenciales válidas.';
