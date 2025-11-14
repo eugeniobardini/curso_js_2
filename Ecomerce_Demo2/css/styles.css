@@ -244,3 +244,36 @@ main {
     height: 100%;
     object-fit: cover;
 }
+
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #ccc;
+    border-top: 6px solid #111;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.page-transition-flip {
+    opacity: 0;
+    transform: perspective(1000px) rotateY(90deg);
+    animation: flipIn 0.8s ease-out forwards;
+}
+
+@keyframes flipIn {
+    to {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0);
+    }
+}
+

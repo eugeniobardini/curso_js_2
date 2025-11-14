@@ -1,69 +1,92 @@
-const dataMap = (productos) => productos.map(producto => `
-    <div class="card">
-        <img src="${producto.imagen}" alt="${producto.nombre}" />
-        <h2>${producto.nombre}</h2>
-        <p>${producto.descripcion}</p>
-        <span>$${producto.precio}</span>
-        <button class="btn-carrito-simple" onclick="mostrarDetalleProducto(${producto.id})">Ver Detalle</button>
-    </div>
-`).join("");
+// ===============================
+//  CONTENEDOR PRINCIPAL
+// ===============================
+const container = document.getElementById("productos-container");
 
-const main = document.querySelector("main");
-main.innerHTML = dataMap(data);
+// ===============================
+//   1. FUNCION: MOSTRAR SPINNER
+// ===============================
+function showSpinner() {
+    container.innerHTML = `
+        <div class="spinner"></div>
+    `;
+}
 
-// EVENTOS CLASE 18
-const inputBuscar = document.querySelector('.buscar input');
-const buttonBuscar = document.querySelector('.buscar button');
-const clearBuscar = document.querySelector('.buscar .clear');
+// ===============================
+//   2. PROMESA: ESPERAR 3 SEGUNDOS
+// ===============================
+function loadProductsPromise() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(data); // 'data' viene de data.js
+        }, 3000);
+    });
+}
 
-buttonBuscar.addEventListener('click', () => {
-    clearBuscar.style.display = 'inline';
-    let filterData = data.filter(producto => 
-        producto.nombre.toLowerCase().includes(inputBuscar.value.toLowerCase())
-    );
-    
-    if (!filterData.length) {
-        main.innerHTML = '<h2>No se encontraron productos</h2>';
-    } else {
-        main.innerHTML = dataMap(filterData);
-    }
+// ===============================
+//   3. RENDERIZAR PRODUCTOS
+// ===============================
+function renderProducts(products) {
+    container.innerHTML = ""; 
+
+    products.forEach((p) => {
+        const card = document.createElement("div");
+        card.classList.add("card-producto");
+
+        card.innerHTML = `
+            <img src="${p.imagen}" alt="${p.nombre}">
+            <h3>${p.nombre}</h3>
+            <p class="precio">$${p.precio}</p>
+            <button class="btn btn-dark" data-id="${p.id}" data-bs-toggle="modal" data-bs-target="#productoModal">
+                Ver Detalle
+            </button>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+// ===============================
+//   4. APLICAR FILTROS
+// ===============================
+
+// Botones de filtro
+const filterButtons = document.querySelectorAll(".filtros button");
+const clearFilters = document.querySelector(".filtros .clear");
+
+// Aplicar un filtro
+function aplicarFiltro(categoria) {
+    const productosFiltrados = 
+        categoria === "todos"
+            ? data
+            : data.filter(p => p.categoria === categoria);
+
+    renderProducts(productosFiltrados);
+}
+
+// Eventos de los botones
+filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelector(".filtros .active").classList.remove("active");
+        btn.classList.add("active");
+        aplicarFiltro(btn.dataset.categoria);
+    });
 });
 
-// Limpiar buscador
-clearBuscar.onclick = () => {
-    inputBuscar.value = '';
-    clearBuscar.style.display = 'none';
-    main.innerHTML = dataMap(data);
-};
+// Limpiar filtro
+clearFilters.addEventListener("click", () => {
+    aplicarFiltro("todos");
+});
 
-// FILTROS POR CATEGORÍA
-const filtrosContainer = document.querySelector('.filtros');
-const clearFiltros = document.querySelector('.filtros .clear');
+// ===============================
+//   5. FLUJO PRINCIPAL
+// ===============================
+showSpinner();  // Primero: mostrar spinner
 
-filtrosContainer.onclick = (e) => {
-    if (e.target.tagName !== 'BUTTON') return;
-
-    const botones = filtrosContainer.querySelectorAll('button');
-    botones.forEach(btn => btn.classList.remove('active'));
-    e.target.classList.add('active');
-
-    const categoriaSeleccionada = e.target.dataset.categoria;
-    
-    if (categoriaSeleccionada !== 'todos') {
-        const filterData = data.filter(producto => 
-            producto.categoria.toLowerCase() === categoriaSeleccionada
-        );
-        main.innerHTML = dataMap(filterData);
-        clearFiltros.style.display = 'inline';
-    } else {
-        main.innerHTML = dataMap(data);
-        clearFiltros.style.display = 'none';
-    }
-};
-
-// Limpiar filtros
-clearFiltros.onclick = () => {
-    filtrosContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-    main.innerHTML = dataMap(data);
-    clearFiltros.style.display = 'none';
-};
+loadProductsPromise()  // Espera 3 segundos
+    .then((productos) => {
+        renderProducts(productos); // Reemplaza el spinner por la grilla
+    })
+    .catch(() => {
+        container.innerHTML = `<p>Error al cargar productos</p>`;
+    });
