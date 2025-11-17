@@ -1,3 +1,6 @@
+const inputBuscar = document.querySelector('.buscar input');
+const buttonBuscar = document.querySelector('.buscar button');
+const clearBuscar = document.querySelector('.buscar .clear');
 // ===============================
 //  CONTENEDOR PRINCIPAL
 // ===============================
@@ -27,25 +30,25 @@ function loadProductsPromise() {
 //   3. RENDERIZAR PRODUCTOS
 // ===============================
 function renderProducts(products) {
-    container.innerHTML = ""; 
+    container.innerHTML = "";
 
-    products.forEach((p) => {
+    products.forEach((producto) => {
         const card = document.createElement("div");
         card.classList.add("card-producto");
 
         card.innerHTML = `
-            <img src="${p.imagen}" alt="${p.nombre}">
-            <h3>${p.nombre}</h3>
-            <p class="precio">$${p.precio}</p>
-            <button class="btn btn-dark" data-id="${p.id}" data-bs-toggle="modal" data-bs-target="#productoModal">
-                Ver Detalle
-            </button>
-        `;
+          <div class="card">
+            <img src="${producto.imagen}" alt="${producto.nombre}" />
+            <h2>${producto.nombre}</h2>
+            <p>${producto.descripcion}</p>
+            <span>$${producto.precio}</span>
+            <button class="btn-carrito-simple" onclick="mostrarDetalleProducto(${producto.id})">Ver Detalle</button>
+         </div>
+        `
 
         container.appendChild(card);
     });
 }
-
 // ===============================
 //   4. APLICAR FILTROS
 // ===============================
@@ -56,7 +59,7 @@ const clearFilters = document.querySelector(".filtros .clear");
 
 // Aplicar un filtro
 function aplicarFiltro(categoria) {
-    const productosFiltrados = 
+    const productosFiltrados =
         categoria === "todos"
             ? data
             : data.filter(p => p.categoria === categoria);
