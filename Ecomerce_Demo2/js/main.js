@@ -1,10 +1,20 @@
 const inputBuscar = document.querySelector('.buscar input');
 const buttonBuscar = document.querySelector('.buscar button');
 const clearBuscar = document.querySelector('.buscar .clear');
-// ===============================
-//  CONTENEDOR PRINCIPAL
-// ===============================
 const container = document.getElementById("productos-container");
+
+// ===============================
+//   FUNCIÓN ORIGINAL DATA MAP
+// ===============================
+const dataMap = (productos) => productos.map(producto => `
+    <div class="card">
+        <img src="${producto.imagen}" alt="${producto.nombre}" />
+        <h2>${producto.nombre}</h2>
+        <p>${producto.descripcion}</p>
+        <span>$${producto.precio}</span>
+        <button class="btn-carrito-simple" onclick="mostrarDetalleProducto(${producto.id})">Ver Detalle</button>
+    </div>
+`).join("");
 
 // ===============================
 //   1. FUNCION: MOSTRAR SPINNER
@@ -21,7 +31,7 @@ function showSpinner() {
 function loadProductsPromise() {
     return new Promise((resolve) => {
         setTimeout(() => {
-            resolve(data); // 'data' viene de data.js
+            resolve(data);
         }, 3000);
     });
 }
@@ -30,65 +40,74 @@ function loadProductsPromise() {
 //   3. RENDERIZAR PRODUCTOS
 // ===============================
 function renderProducts(products) {
-    container.innerHTML = "";
-
-    products.forEach((producto) => {
-        const card = document.createElement("div");
-        card.classList.add("card-producto");
-
-        card.innerHTML = `
-          <div class="card">
-            <img src="${producto.imagen}" alt="${producto.nombre}" />
-            <h2>${producto.nombre}</h2>
-            <p>${producto.descripcion}</p>
-            <span>$${producto.precio}</span>
-            <button class="btn-carrito-simple" onclick="mostrarDetalleProducto(${producto.id})">Ver Detalle</button>
-         </div>
-        `
-
-        container.appendChild(card);
-    });
-}
-// ===============================
-//   4. APLICAR FILTROS
-// ===============================
-
-// Botones de filtro
-const filterButtons = document.querySelectorAll(".filtros button");
-const clearFilters = document.querySelector(".filtros .clear");
-
-// Aplicar un filtro
-function aplicarFiltro(categoria) {
-    const productosFiltrados =
-        categoria === "todos"
-            ? data
-            : data.filter(p => p.categoria === categoria);
-
-    renderProducts(productosFiltrados);
+    container.innerHTML = dataMap(products);
 }
 
-// Eventos de los botones
-filterButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelector(".filtros .active").classList.remove("active");
-        btn.classList.add("active");
-        aplicarFiltro(btn.dataset.categoria);
-    });
+// ===============================
+//   4. BUSCADOR (FUNCIONALIDAD ORIGINAL)
+// ===============================
+buttonBuscar.addEventListener('click', () => {
+    clearBuscar.style.display = 'inline';
+    let filterData = data.filter(producto => 
+        producto.nombre.toLowerCase().includes(inputBuscar.value.toLowerCase())
+    );
+    
+    if (!filterData.length) {
+        container.innerHTML = '<h2>No se encontraron productos</h2>';
+    } else {
+        renderProducts(filterData);
+    }
 });
 
-// Limpiar filtro
-clearFilters.addEventListener("click", () => {
-    aplicarFiltro("todos");
-});
+// Limpiar buscador
+clearBuscar.onclick = () => {
+    inputBuscar.value = '';
+    clearBuscar.style.display = 'none';
+    renderProducts(data);
+};
 
 // ===============================
-//   5. FLUJO PRINCIPAL
+//   5. FILTROS POR CATEGORÍA
 // ===============================
-showSpinner();  // Primero: mostrar spinner
+const filtrosContainer = document.querySelector('.filtros');
+const clearFiltros = document.querySelector('.filtros .clear');
 
-loadProductsPromise()  // Espera 3 segundos
+filtrosContainer.onclick = (e) => {
+    if (e.target.tagName !== 'BUTTON') return;
+
+    const botones = filtrosContainer.querySelectorAll('button');
+    botones.forEach(btn => btn.classList.remove('active'));
+    e.target.classList.add('active');
+
+    const categoriaSeleccionada = e.target.dataset.categoria;
+    
+    if (categoriaSeleccionada !== 'todos') {
+        const filterData = data.filter(producto => 
+            producto.categoria.toLowerCase() === categoriaSeleccionada
+        );
+        renderProducts(filterData);
+        clearFiltros.style.display = 'inline';
+    } else {
+        renderProducts(data);
+        clearFiltros.style.display = 'none';
+    }
+};
+
+// Limpiar filtros
+clearFiltros.onclick = () => {
+    filtrosContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+    renderProducts(data);
+    clearFiltros.style.display = 'none';
+};
+
+// ===============================
+//   6. FLUJO PRINCIPAL
+// ===============================
+showSpinner();
+
+loadProductsPromise()
     .then((productos) => {
-        renderProducts(productos); // Reemplaza el spinner por la grilla
+        renderProducts(productos);
     })
     .catch(() => {
         container.innerHTML = `<p>Error al cargar productos</p>`;
