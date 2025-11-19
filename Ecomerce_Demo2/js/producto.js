@@ -18,7 +18,12 @@ function mostrarDetalleProducto(id) {
                   <input type="number" class="form-control text-center" value="1" min="1" max="${producto.stock}" id="cantidadProducto">
                   <button class="btn btn-outline-secondary" type="button" onclick="increaseItem()">+</button>
               </div>
-              <button class="btn btn-success col-12" onclick="addItems()">Comprar</button>
+              <button class="btn btn-success col-12" onclick="addItems()">
+                  <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">
+                    shopping_cart
+                  </span>
+                  Agregar al Carrito
+              </button>
            </div>`
         : `<div class="mt-4">
               <a href="./login.html" class="btn btn-primary">Iniciar sesión para comprar</a>
@@ -68,41 +73,66 @@ function decreaseItem() {
     }
 }
 
-// Función para agregar items al carrito
+
 function addItems() {
     if (!counter || !currentProduct) return;
     
     const cantidad = Number(counter.value);
     if (cantidad < 1) return;
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const productIndex = cart.findIndex(item => item.id === currentProduct.id);
+    // SweetAlert2 para confirmación
+    Swal.fire({
+        title: '¿Estás segura/o?',
+        text: `¿Querés agregar ${cantidad} ${currentProduct.nombre} al carrito?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '¡Sí, agregar!',
+        cancelButtonText: 'Ay no, tengo miedo',
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#dc3545',
+        background: '#ffffff',
+        customClass: {
+            popup: 'border-radius-15'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // LÓGICA ORIGINAL DEL CARRITO (INTACTA)
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const productIndex = cart.findIndex(item => item.id === currentProduct.id);
 
-    if (productIndex !== -1) {
-        // Si ya existe, actualizar cantidad
-        cart[productIndex].quantity += cantidad;
-    } else {
-        // Si no existe, agregar producto completo
-        cart.push({
-            ...currentProduct,
-            quantity: cantidad
-        });
-    }
+            if (productIndex !== -1) {
+                cart[productIndex].quantity += cantidad;
+            } else {
+                cart.push({
+                    ...currentProduct,
+                    quantity: cantidad
+                });
+            }
 
-    // Guardar carrito actualizado
-    localStorage.setItem("cart", JSON.stringify(cart));
-    
-    // Calcular y actualizar quantity total
-    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-    localStorage.setItem("quantity", totalQuantity.toString());
-    
-    // Actualizar nav
-    updateCartQuantity();
-    
-    // Resetear counter y cerrar modal
-    counter.value = 1;
-    const modal = bootstrap.Modal.getInstance(document.getElementById('productoModal'));
-    modal.hide();
-    
-    alert('Producto agregado al carrito!');
+            localStorage.setItem("cart", JSON.stringify(cart));
+            
+            const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+            localStorage.setItem("quantity", totalQuantity.toString());
+            
+            updateCartQuantity();
+            
+            Toastify({
+                text: `✅ Agregaste ${cantidad} ${currentProduct.nombre} al carrito`,
+                duration: 3000,
+                gravity: "bottom",
+                position: "right",
+                style: {
+                    background: "#28a745",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    padding: "12px 20px"
+                }
+            }).showToast();
+
+            // Resetear y cerrar modal
+            counter.value = 1;
+            const modal = bootstrap.Modal.getInstance(document.getElementById('productoModal'));
+            modal.hide();
+        }
+    });
 }

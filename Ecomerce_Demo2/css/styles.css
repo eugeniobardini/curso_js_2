@@ -245,7 +245,6 @@ main {
     object-fit: cover;
 }
 
-/* ❌ ESTOS ESTILOS ESTÁN AFECTANDO LAS CARDS DEL CARRITO */
 .spinner {
     width: 60px;
     height: 60px;
