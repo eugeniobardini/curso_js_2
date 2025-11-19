@@ -73,7 +73,7 @@ function decreaseItem() {
     }
 }
 
-
+//  NUEVA FUNCIÓN addItems() MODIFICADA CON SWEETALERT2 + TOASTIFY
 function addItems() {
     if (!counter || !currentProduct) return;
     
@@ -116,6 +116,7 @@ function addItems() {
             
             updateCartQuantity();
             
+            //  Toastify para notificación de éxito
             Toastify({
                 text: `✅ Agregaste ${cantidad} ${currentProduct.nombre} al carrito`,
                 duration: 3000,
